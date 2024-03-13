@@ -1,0 +1,55 @@
+server:
+  port: ${SERVER_PORT:8081}
+spring:
+  data:
+    rest:
+      base-path: "/api/admin"
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/package_transfer}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:1234}
+    hikari:
+      maximum-pool-size: ${DATABASE_MAX_POOL_SIZE:10}
+      minimum-idle: ${DATABASE_MINIMUM_IDLE:2}
+      data-source-properties:
+        ApplicationName: ${DATABASE_APPLICATION_NAME:package-transfer}
+  jpa:
+    generate-ddl: 'true'
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL81Dialect
+        format_sql: 'true'
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+  devtools:
+    restart:
+      exclude: static/**
+crypto:
+  credential:
+    encryption-key: ${CRYPTO_ENCRYPTION_SECRET:}
+    salt: ${CRYPTO_SALT:}
+
+redis:
+  enable: ${IS_REDIS_ENABLE:false}
+  url: ${REDIS_URL:redis://127.0.0.1:6379}
+  database: ${REDIS_DATABASE:0}
+  password: ${REDIS_PASSWORD:}
+
+delivery:
+  running-mode: ${RUNNING_MODE:STAND_ALONE} #STAND_ALONE, MANAGEMENT, WORKER
+  number-thread-ratio: ${THREAD_RATIO:10}
+  outgoing-package-sorted-set-name: ${OUTGOING_PACKAGE_SORTED_SET_NAME:outgoing-sorted-set}
+
+jwt:
+  secret: ${JWT_SECRET:thisIsTokenSecret}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  paths-to-match: /api/**
+  paths-to-exclude: /api/admin/**
+
+admin:
+  username: ${ADMIN_USERNAME:admin}
+  password: ${ADMIN_PASSWORD:adminpwd}
